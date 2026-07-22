@@ -118,46 +118,46 @@ Connection of Frontend and Backend
     // Individual backend File 
     // Root level for health check
     // Routing levels
-const express = require("express");
-const cors = require("cors");
+    const express = require("express");
+    const cors = require("cors");
 
-const app = express();
+    const app = express();
 
-app.use(cors());      // allow requests from frontend
-app.use(express.json());
+    app.use(cors());      // allow requests from frontend
+    app.use(express.json());
 
-// Root route for health check
-app.get("/", (req, res) => {
-  res.send("Backend is alive!");
-});
+    // Root route for health check
+    app.get("/", (req, res) => {
+        res.send("Backend is alive!");
+    });
 
-// In-memory tasks list
-let tasks = [{ id: 1, title: "Learn Svelte", completed: false }];
+    // In-memory tasks list
+    let tasks = [{ id: 1, title: "Learn Svelte", completed: false }];
 
-// CRUD routes
-app.get("/tasks", (req, res) => {
-  res.json(tasks);
-});
+    // CRUD routes
+    app.get("/tasks", (req, res) => {
+        res.json(tasks);
+    });
 
-app.post("/tasks", (req, res) => {
-  const newTask = { id: Date.now(), ...req.body };
-  tasks.push(newTask);
-  res.json(newTask);
-});
+    app.post("/tasks", (req, res) => {
+        const newTask = { id: Date.now(), ...req.body };
+        tasks.push(newTask);
+        res.json(newTask);
+    });
 
-app.put("/tasks/:id", (req, res) => {
-  const id = Number(req.params.id);
-  tasks = tasks.map(t => t.id === id ? { ...t, ...req.body } : t);
-  res.json(tasks.find(t => t.id === id));
-});
+    app.put("/tasks/:id", (req, res) => {
+        const id = Number(req.params.id);
+        tasks = tasks.map(t => t.id === id ? { ...t, ...req.body } : t);
+        res.json(tasks.find(t => t.id === id));
+    });
 
-app.delete("/tasks/:id", (req, res) => {
-  const id = Number(req.params.id);
-  tasks = tasks.filter(t => t.id !== id);
-  res.json({ message: "Task deleted" });
-});
+    app.delete("/tasks/:id", (req, res) => {
+        const id = Number(req.params.id);
+        tasks = tasks.filter(t => t.id !== id);
+        res.json({ message: "Task deleted" });
+    });
 
-app.listen(5000, () => console.log("Task Service running on 5000"));
+    app.listen(5000, () => console.log("Task Service running on 5000"));
 
 run: 
     npx nodemon index.js
