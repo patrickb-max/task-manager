@@ -281,7 +281,27 @@ advance:
 
     localhost:5173 - browse it
 
-    
+Create DATABASE - Mongodb Atlas:
+================================
+
+    register with email and login
+     - create a cluster 
+     cloudsunny66@gmail.com
+     mongo-cluster -- my cluster name
+
+     username: cloudsunny66_db_user
+     pass: 1234567889xxxxxxxxxxxxxx
+     .env file - can download for futer purpose
+
+     connect - driver - mongodb 
+
+     copy the link and paste in index.js file 
+
+     create .env file --- to store mongodb password
+
+     update password:  
+     
+     go to - mongodb atlas - database - access - user - cloudsunny66_db_user - edit - update password.
 
 
 
