@@ -6,45 +6,53 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-
-app.use(cors());      // allow requests from frontend
+app.use(cors());
 app.use(express.json());
 
-// Root route for health check
+// Connect to MongoDB Atlas
+mongoose.connect("mongodb+srv://cloudsunny66_db_user:<db_password>@mongo-cluster.ljkkopr.mongodb.net/taskmanager?retryWrites=true&w=majority", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+// Define schema + model
+const TaskSchema = new mongoose.Schema({
+  title: String,
+  completed: Boolean
+});
+
+const Task = mongoose.model("Task", TaskSchema);
+
+// Root route
 app.get("/", (req, res) => {
   res.send("Backend is alive!");
 });
 
-//In -memory tasks list without included data base 
-let tasks = [{ id: 1, title: "Learn Svelte", completed: false }];
+// CRUD routes
 
-// CURD routes
-
-// GET Method
-app.get("/tasks", (req, res) => {
+// GET all tasks
+app.get("/tasks", async (req, res) => {
+  const tasks = await Task.find();
   res.json(tasks);
 });
 
-// POST Method
-app.post("/tasks", (req, res) => {
-  const newTask = { id: Date.now(), ...req.body };
-  tasks.push(newTask);
+// POST new task
+app.post("/tasks", async (req, res) => {
+  const newTask = new Task(req.body);
+  await newTask.save();
   res.json(newTask);
 });
 
-// PUT Method
-app.put("/tasks/:id", (req, res) => {
-  const id = Number(req.params.id);
-  tasks = tasks.map(t => t.id === id ? { ...t, ...req.body } : t);
-  res.json(tasks.find(t => t.id === id));
+// PUT update task
+app.put("/tasks/:id", async (req, res) => {
+  const updated = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
 });
 
-// DELETE Method
-app.delete("/tasks/:id", (req, res) => {
-  const id = Number(req.params.id);
-  tasks = tasks.filter(t => t.id !== id);
+// DELETE task
+app.delete("/tasks/:id", async (req, res) => {
+  await Task.findByIdAndDelete(req.params.id);
   res.json({ message: "Task deleted" });
 });
-
 
 app.listen(5000, () => console.log("Task Service running on 5000"));
