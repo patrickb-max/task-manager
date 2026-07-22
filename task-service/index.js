@@ -3,8 +3,11 @@
 // Routing levels
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+
 const app = express();
 
+app.use(cors());      // allow requests from frontend
 app.use(express.json());
 
 // Root route for health check
