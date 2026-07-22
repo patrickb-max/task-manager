@@ -1,2 +1,47 @@
 # task-manger
-this repo contains the project information about the frontend, backend, database and all its connectivity.
+This repo contains the project information about the frontend, backend, database and all its connectivity.
+
+Process steps:
+
+Frontend - svelvekit
+Backend - node.js
+Database - mongodbatlas
+
+first step: 
+
+create a repository
+
+    Task-manager - README.md file
+
+cmd: 
+    npx sv create task-manager-frontend
+
+    It will creates  the task-manager-frontend directory with all the packages inside it like
+
+        |-src
+        |-static
+        |-svelte-config.js
+        |-vite.config.js
+        |-package.json
+        |-README.md
+
+    cd task-manager-frontend
+
+        npm install -----------> install all the dependencies
+
+        npm run dev -----------> access at [http://localhost:5173], [http://localhost:5175] ...etc
+
+    Usually frontend will be runing on as per the SCRIPT - mentioned in package.json file 
+
+    like: 
+        npm run dev
+        npm run build
+        npm run preview
+        npm run prepare 
+        npm run check
+        npm run watch ....etc as per script in package.json
+
+    Therefore Frontend server will be running on ports - 5173, 5175 etc 
+
+    Confirmation:  
+        Open Browser localhost: 5173 ----> Hit Enter ---> Page Opens.
