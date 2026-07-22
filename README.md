@@ -193,3 +193,29 @@ Frontend:
 
         loadTasks();
         </script>
+
+    As of now everything is Hardcode means displaying the secrets with out any encryption - not good practice 
+
+
+    Every secrets and passwords must be protected and isolated and eyncrypted. 
+
+
+    Important Task:  Highly recommended
+
+    Add Proxy in vite.config.ts
+
+    import adapter from '@sveltejs/adapter-auto';
+    import { sveltekit } from '@sveltejs/kit/vite';
+    import { defineConfig } from 'vite';
+
+    export default defineConfig({
+	    plugins: [sveltekit()],
+	    server: {
+		    proxy: {
+		 	    '/api': 'http://localhost:5000'   // forward /api calls to backend
+		    }
+	    }
+			
+    });
+
+
