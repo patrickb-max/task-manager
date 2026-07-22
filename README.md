@@ -237,6 +237,39 @@ Frontend:
 
         First without database - (mongodb)
 
+        Backend CRUD - routes -->
+
+        Read - show all tasks
+        create - add a new task
+        update - change existing task
+        delete - remove a task
+
+        update index.js file with { get, put, post, delete } methods
+    
+    Test locally: 
+
+    get:
+
+        curl https://didactic-space-engine-q7wqj7759vrvf9464-5177.app.github.dev/tasks
+
+    post: 
+
+        curl -X POST https://didactic-space-engine-q7wqj7759vrvf9464-5177.app.github.dev/tasks \
+        -H "Content-Type: application/json" \
+        -d '{"title":"New Task","completed":false}'
+
+    put: 
+
+        curl -X PUT https://didactic-space-engine-q7wqj7759vrvf9464-5177.app.github.dev/tasks/12345 \
+        -H "Content-Type: application/json" \
+        -d '{"completed":true}'
+
+    Delete:
+
+        curl -X DELETE https://didactic-space-engine-q7wqj7759vrvf9464-5177.app.github.dev/tasks/12345
+
+    CRUD Actions -- Play around - create database, update, fetch, delete , as it is temporary stores in RAM because we didnt connected to database(mongodb)
+
 
 
     
