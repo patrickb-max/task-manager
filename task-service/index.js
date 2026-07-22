@@ -1,3 +1,6 @@
+// Induvidual backend File 
+// Root level for health check
+// Routing levels
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
