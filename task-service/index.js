@@ -1,6 +1,7 @@
 // Induvidual backend File 
 // Root level for health check
 // Routing levels
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -10,10 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB Atlas
-mongoose.connect("mongodb+srv://cloudsunny66_db_user:<db_password>@mongo-cluster.ljkkopr.mongodb.net/taskmanager?retryWrites=true&w=majority", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect("mongodb+srv://cloudsunny66_db_user:<db_password>@mongo-cluster.ljkkopr.mongodb.net/taskmanager?retryWrites=true&w=majority");
+mongoose.connect(process.env.MONGO_URI);
+
 
 // Define schema + model
 const TaskSchema = new mongoose.Schema({
