@@ -1,25 +1,59 @@
 <script>
-    import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
 
-    let tasks = [];
+  let tasks = [];
+  let newTitle = "";
 
-    // Load tasks from backend
-    onMount(async ()  => {
-        //const res = await fetch("http://localhost:5000/tasks");
-        //const res = await fetch("https://didactic-space-engine-q7wqj7759vrvf9464-5175.app.github.dev/tasks");
-        const res = await fetch("/api/tasks");  // proxy forwards to backend 
-        tasks = await res.json();
+  // Load tasks from backend
+  async function loadTasks() {
+    const res = await fetch("/api/tasks");  // proxy forwards to backend
+    tasks = await res.json();
+  }
+
+  // Add task
+  async function addTask() {
+    const res = await fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: newTitle, completed: false })
     });
+    const newTask = await res.json();
+    tasks = [...tasks, newTask];
+    newTitle = ""; // clear input
+  }
 
-    //loadTasks();
+  // Toggle task completion
+  async function toggleTask(id) {
+    const task = tasks.find(t => t.id === id);
+    const res = await fetch(`/api/tasks/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ completed: !task.completed })
+    });
+    const updated = await res.json();
+    tasks = tasks.map(t => t.id === id ? updated : t);
+  }
+
+  // Delete task
+  async function deleteTask(id) {
+    await fetch(`/api/tasks/${id}`, { method: "DELETE" });
+    tasks = tasks.filter(t => t.id !== id);
+  }
+
+  onMount(loadTasks);
 </script>
 
+<h1>Task Manager</h1>
 
+<input bind:value={newTitle} placeholder="Enter task title" />
+<button on:click={addTask}>➕ Add Task</button>
 
-
-// Individual Frontend code in src routes .svelte 
-// Display whats there in this file .
-//<h1>Welcome to SvelteKit</h1>
-//<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-
-//<h1> Welcome to Patrick</h1>
+<ul>
+  {#each tasks as task}
+    <li>
+      <span>{task.title} - {task.completed ? "✅" : "❌"}</span>
+      <button on:click={() => toggleTask(task.id)}>Toggle</button>
+      <button on:click={() => deleteTask(task.id)}>Delete</button>
+    </li>
+  {/each}
+</ul>
